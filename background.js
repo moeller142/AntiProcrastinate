@@ -59,24 +59,24 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 		if(open_site.id.indexOf(tabId)>=0){
 			console.log("closed tab was bad");
 
-				console.log("closed tab has duplicate");
-				console.log(open_site.id);
-
+			console.log(open_site.id);
+			if(open_site.id.length>1){
 				open_site.quantity = open_site.quantity - 1;
 				for(j = 0; j<open_site.id.length; j++){
 					if(open_site.id[j] === tabId){
 						open_site.id.splice(j, 1);
 					}
-				}
-				console.log(open_site.id);
+			}
+			}
+			
 
-			}else{
-				console.log("closed tab has no duplicate");
+			else{
+			console.log("closed tab has no duplicate");
 
-				console.log("removing");
+			console.log("removing");
 
-				var current_time = new Date();
-				var time_spent = new Date(open_site.time_opened - current_time);
+			var current_time = new Date();
+			var time_spent = new Date(open_site.time_opened - current_time);
 
 				//minutes spent on site
 				var minutes_spent = Math.round(((time_spent % 86400000) % 3600000) / 60000);
@@ -89,27 +89,32 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 				//makes payment from user's account specified in json string of the amount money_charged to the charity specified
 
 				//removes site from current bad open sites
-				current_bad_open.splice(i, 1);
+				// current_bad_open.splice(i, 1);
+				// var user_bank_info = {
+				// 	"first_name": "John",
+				// 	"last_name": "Doe",
+				// 	"id": "583114ce360f81f10455404d",
+				// 	"account_id": "5831329b360f81f10455405e"
+				// };
+				// makePayment(user_bank_info, money_charged, charity);
+            	open_site.id.splice(i, 1);
+
+				chrome.storage.sync.get("credentials", function(response){
+            	//makes payment from user's account specified in json string of the amount money_charged to the charity specified
+            		makePayment(response.credentials, money_charged, charity);
+            		console.log("response: " + response);
+
+            	});
 
 				alert("YAY BACK TO WORK!\n You just donated $" + money_charged);
 			}
-            // var user_bank_info = {
-            //     "first_name": "John",
-            //     "last_name": "Doe",
-            //     "id": "583114ce360f81f10455404d",
-            //     "account_id": "5831329b360f81f10455405e"
-            // };
-            chrome.storage.sync.get("credentials", function(credentials){
-            	//makes payment from user's account specified in json string of the amount money_charged to the charity specified
-            	makePayment(credentials, money_charged, charity);
-
-            });
+               
 			
 
 
 		}
 	}
-);
+});
 
 
 
@@ -134,10 +139,11 @@ function isBad(url, tabId){
 }
 
 function makePayment(user_string, amt, merchant_name) {
+	 console.log(user_string);
 
     //user_info = JSON.parse(JSON.stringify(user_string));
     console.log(user_string["account_id"])
-    console.log(user_string[0]["account_id"])
+    //console.log(user_string[0]["account_id"])
 
     var merchant_info = {
       "merchants": [
