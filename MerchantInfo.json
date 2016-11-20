@@ -1,0 +1,19 @@
+merchant_json = {
+  "merchants": [
+    {
+      "name": "Favorite Charity",
+      "id": "583129f9360f81f104554055"
+    },
+
+    {
+        "name": "Fake Imposter",
+        "id": "123456781234568"
+    },
+
+    {
+        "name": "ASDFASDFASDF",
+        "id": ";lsdf;lsdf"
+    }
+
+  ]
+}
