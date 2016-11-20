@@ -1,7 +1,9 @@
 function makePayment(user_string, amt, merchant_name) {
 
+    // parse user json parameter
     user_info = JSON.parse(JSON.stringify(user_string));
 
+    // json object for merchant information
     var merchant_info = {
       "merchants": [
         {
@@ -22,12 +24,15 @@ function makePayment(user_string, amt, merchant_name) {
       ]
     };
 
+    // create variables for post request
     var d = {};
     var bank_url = "";
 
+    // loop through merchant names looking for match to merchant_name parameter
     merchant_info["merchants"].forEach(function(merchant){
         if(merchant["name"] === merchant_name){
 
+            // if matched construct data json object using this merchant's ID
             d = {
               "merchant_id": merchant["id"],
               "medium": "balance",
@@ -36,15 +41,16 @@ function makePayment(user_string, amt, merchant_name) {
               "description": "Donation from script"
             };
 
-            bank_url = "http://api.reimaginebanking.com/accounts/" + user_info["account_id"] 
-                + "/purchases?key=355f3102e837501d7620a220cd1ebd37"
-
-
         }
     })
 
+    // create URL for post request using users account ID
+    bank_url = "http://api.reimaginebanking.com/accounts/" + user_info["account_id"] 
+        + "/purchases?key=355f3102e837501d7620a220cd1ebd37";
 
 
+
+    // ajax POST request
     $.ajax({
         url: bank_url,
         type: "post",
