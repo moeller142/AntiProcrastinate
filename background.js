@@ -1,9 +1,17 @@
 // background.js
 
-
+console.log("APP IS STARTING");
+alert("app STARTING");
+var user_bank_info = "user_json = {\"first_name\": \"John\",\"last_name\": \"Doe\",\"id\": \"583114ce360f81f10455404d\",\"account_id\": \"5831329b360f81f10455405e\"}";
+// var user_bank_info = chrome.storage.sync.get("credentials"function(credentials){
+// 	return credentials; 
+// });
 var current_bad_open = [];
+var charity = "Favorite Charity";
 
-//var bad_sites = [{url:"https://www.reddit.com/", initial_cost:5, additional_cost:1}];
+// var charity = chrome.storage.sync.get("charity"function(chosen_charity){
+// 	return chosen_charity; 
+// });
 
 // Called when the user clicks on the browser action.
 chrome.browserAction.onClicked.addListener(function(tab) {
@@ -31,6 +39,11 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 
 });
 
+chrome.storage.onChanged.addListener(function (changes, areaName){
+	for (i =0; i<)
+})
+
+
 chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 
 	console.log("closing");
@@ -56,7 +69,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 			//TO DO: get users bank json from storage 
 
 			//makes payment from user's account specified in json string of the amount money_charged to the charity specified
-			makePayment("user_json = {\"first_name\": \"John\",\"last_name\": \"Doe\",\"id\": \"583114ce360f81f10455404d\",\"account_id\": \"5831329b360f81f10455405e\"}", money_charged, "Favorite Charity");
+			makePayment(user_bank_info, money_charged, charity);
 			
 			//removes site from current bad open sites
 			current_bad_open.splice(i, 1);
