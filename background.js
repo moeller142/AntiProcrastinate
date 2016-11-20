@@ -97,7 +97,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 				// 	"account_id": "5831329b360f81f10455405e"
 				// };
 				// makePayment(user_bank_info, money_charged, charity);
-            	open_site.id.splice(i, 1);
+            	current_bad_open.splice(i, 1);
 
 				chrome.storage.sync.get("credentials", function(response){
             	//makes payment from user's account specified in json string of the amount money_charged to the charity specified
