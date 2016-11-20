@@ -12,8 +12,4 @@ chrome.runtime.onMessage.addListener(
     	alert("BAD TAB");
     }
 
-    if( request.message === "closed_bad_tab" ){
-    	console.log("alerting bad tab closed");
-    	alert("YAY BACK TO WORK!");
-    }});
-
+});
