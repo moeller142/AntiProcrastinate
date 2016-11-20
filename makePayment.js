@@ -12,13 +12,13 @@ function makePayment(user_string, amt, merchant_name) {
         },
 
         {
-            "name": "Fake Imposter",
-            "id": "123456781234568"
+            "name": "Wholesome Charity",
+            "id": "58319569360f81f1045540a3"
         },
 
         {
-            "name": "ASDFASDFASDF",
-            "id": ";lsdf;lsdf"
+            "name": "Helpful Charity",
+            "id": "58319708360f81f1045540a5"
         }
 
       ]
