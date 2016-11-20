@@ -32,7 +32,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 			}
 		}
 		if(!already_on){
-			console.log(tab.url);
+			console.log("121212" + tab.url);
 			isBad(tab.url, tabId);
 		}
 		
@@ -99,13 +99,13 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
             //     "id": "583114ce360f81f10455404d",
             //     "account_id": "5831329b360f81f10455405e"
             // };
-            var user_bank_info = chrome.storage.sync.get("credentials", function(credentials){
-                return credentials; 
-            });
-			makePayment(user_bank_info, money_charged, charity);
+            chrome.storage.sync.get("credentials", function(credentials){
+            	//makes payment from user's account specified in json string of the amount money_charged to the charity specified
+            	makePayment(credentials, money_charged, charity);
 
-            //makes payment from user's account specified in json string of the amount money_charged to the charity specified
-			makePayment(user_bank_info, money_charged, charity);
+            });
+			
+
 
 		}
 	}
@@ -118,7 +118,9 @@ function isBad(url, tabId){
 	chrome.storage.sync.get("sites", function(response){
 		var bad_sites = Object.keys(response.sites).map(function (key) { return response.sites[key]; });
 		for(var i=0; i < bad_sites.length; i++){
-			console.log(bad_sites[i].url);
+			console.log("badsite - " +bad_sites[i].url);
+			console.log("current site - " +bad_sites[i].url);
+
 			if(url.includes(bad_sites[i].url)){
 				console.log("opened bad tab");
 				console.log(parseInt(bad_sites[i].initialPenalty));
@@ -133,9 +135,9 @@ function isBad(url, tabId){
 
 function makePayment(user_string, amt, merchant_name) {
 
-    user_info = JSON.parse(JSON.stringify(user_string));
-    console.log(user_info["account_id"])
-    console.log(user_info[0]["account_id"])
+    //user_info = JSON.parse(JSON.stringify(user_string));
+    console.log(user_string["account_id"])
+    console.log(user_string[0]["account_id"])
 
     var merchant_info = {
       "merchants": [
@@ -171,7 +173,7 @@ function makePayment(user_string, amt, merchant_name) {
               "description": "Donation from script"
             };
 
-            bank_url = "http://api.reimaginebanking.com/accounts/" + user_info["account_id"]
+            bank_url = "http://api.reimaginebanking.com/accounts/" + user_string["account_id"]
                 + "/purchases?key=355f3102e837501d7620a220cd1ebd37"
 
 
