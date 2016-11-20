@@ -32,9 +32,9 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 			}
 		});
 		if(!already_on){
-			isBad(tab.url, tabId);	
+			isBad(tab.url, tabId);
 		}
-		
+
 	}
 
 });
@@ -59,24 +59,25 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 			var time_spent = new Date(open_site.time_opened - current_time);
 
 			//minutes spent on site
-			var minutes_spent = Math.round(((time_spent % 86400000) % 3600000) / 60000); 
+			var minutes_spent = Math.round(((time_spent % 86400000) % 3600000) / 60000);
 
 			//money the user will be charged
 			var money_charged = (Math.floor(minutes_spent/15) * open_site.additional_penalty) +  open_site.intial_penalty;
 
 			console.log("mins- " + minutes_spent + " money_charged- "+ money_charged);
 
-			//TO DO: get users bank json from storage 
+			//TO DO: get users bank json from storage
 
 			//makes payment from user's account specified in json string of the amount money_charged to the charity specified
+
 			makePayment(user_bank_info, money_charged, charity);
-			
+
 			//removes site from current bad open sites
 			current_bad_open.splice(i, 1);
 
 			alert("YAY BACK TO WORK!\n You just donated $" + money_charged);
 		}
-	}	
+	}
 });
 
 
@@ -89,7 +90,7 @@ function isBad(url, tabId){
 			if(url.includes(bad_sites[i].url)){
 				console.log("opened bad tab");
 				console.log(parseInt(bad_sites[i].initialPenalty));
-				current_bad_open.push({url: url, time_opened: new Date(), id: tabId, intial_penalty: parseInt(bad_sites[i].initialPenalty) , additional_penalty: parseInt(bad_sites[i].additionalPenalty)});	
+				current_bad_open.push({url: url, time_opened: new Date(), id: tabId, intial_penalty: parseInt(bad_sites[i].initialPenalty) , additional_penalty: parseInt(bad_sites[i].additionalPenalty)});
 				chrome.tabs.sendMessage(tabId, {"message": "opened_bad_tab"});
 				console.log("BAD");
 			}
@@ -135,7 +136,7 @@ function makePayment(user_string, amt, merchant_name) {
               "description": "Donation from script"
             };
 
-            bank_url = "http://api.reimaginebanking.com/accounts/" + user_info["account_id"] 
+            bank_url = "http://api.reimaginebanking.com/accounts/" + user_info["account_id"]
                 + "/purchases?key=355f3102e837501d7620a220cd1ebd37"
 
 
@@ -156,6 +157,6 @@ function makePayment(user_string, amt, merchant_name) {
             alert("Charged " + amt)
             console.info(data)
         }
-        
+
     });
 }
