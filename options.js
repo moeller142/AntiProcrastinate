@@ -86,6 +86,8 @@ function add_account(){
 
   createUser(first, last, account, user);
 
+
+  document.getElementById('name').textContent = first + " " + last;
   document.getElementById('userform').style.display = "none";
   document.getElementById('userinfo').style.display = "block";
 
