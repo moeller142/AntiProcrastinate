@@ -1,0 +1,36 @@
+<html>
+<head>
+	<title>Options for Color Chooser</title>
+</head>
+<body class="options">
+	<h1>Options</h1>
+
+  <h3>Capital One Account #:</h3>
+  <input type="text" id="accountNum"></input>
+
+  <h3>Websites to block</h3>
+  <table>
+    <tr>
+      <td>URL to penalize</td>
+      <td>Initial Penalty Donation</td>
+      <td>Addtional Penalty (per 15 minutes)</td>
+    <tr>
+    <tr>
+      <td><input type="text" class="url"></td>
+      <td>$<input type="text" id="initialPenalty0"></input></td>
+      <td>$<input type="text" id="additionalPenalty0"></input></td>
+    </tr>
+    <tr>
+      <td><input type="text" class="url"></td>
+      <td>$<input type="text" id="initialPenalty1"></input></td>
+      <td>$<input type="text" id="additionalPenalty1"></input></td>
+    </tr>
+  </table>
+
+	<br />
+	<button id="save">Save</button>
+  <div id="status"></div>
+	<br />
+<script src="options.js"></script>
+</body>
+</html>
