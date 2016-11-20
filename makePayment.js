@@ -61,7 +61,6 @@ function makePayment(user_string, amt, merchant_name) {
         },
         dataType: "json",
         success: function(data) {
-            alert("Charged " + amt)
             console.info(data)
         }
         
