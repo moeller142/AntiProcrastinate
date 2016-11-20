@@ -48,7 +48,8 @@ function createUser(firstName, lastName, acctName, accountJson) {
                             });
                         }
                     })
-                }
+                },
+
             });
 
           }

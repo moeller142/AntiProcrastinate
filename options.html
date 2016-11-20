@@ -33,7 +33,7 @@
 <hr />
 
   <h2>Websites to block</h2>
-  <table>
+  <table id="websites">
     <tr>
       <td>URL to penalize</td>
       <td>Initial Penalty Donation</td>
@@ -43,14 +43,11 @@
       <td><input type="text" class="url" id="url0"></td>
       <td>$<input type="text" id="initialPenalty0"></input></td>
       <td>$<input type="text" id="additionalPenalty0"></input></td>
-    </tr>
-    <tr>
-      <td><input type="text" class="url" id="url0"></td>
-      <td>$<input type="text" id="initialPenalty1"></input></td>
-      <td>$<input type="text" id="additionalPenalty1"></input></td>
+			<td><button class="remove" id="remove0">X</button></td>
     </tr>
   </table>
-
+	<button id="addRow">Add a website</button>
+<br />
 	<br />
 	<button id="save">Save Website Settings</button>
   <div id="status"></div>
