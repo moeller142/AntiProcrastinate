@@ -1,13 +1,29 @@
-function createCreditPurchase(amt, merchant_name) {
+function makePayment(user_string, amt, merchant_name) {
 
-    var merchant_string = JSON.stringify(merchant_json)
-    var merchant_info = JSON.parse(merchant_string)
+    user_info = JSON.parse(JSON.stringify(user_string));
 
-    var user_string = JSON.stringify(user_json)
-    var user_info = JSON.parse(user_string)
+    var merchant_info = {
+      "merchants": [
+        {
+          "name": "Favorite Charity",
+          "id": "583129f9360f81f104554055"
+        },
 
-    var d = {}
-    var bank_url = ""
+        {
+            "name": "Fake Imposter",
+            "id": "123456781234568"
+        },
+
+        {
+            "name": "ASDFASDFASDF",
+            "id": ";lsdf;lsdf"
+        }
+
+      ]
+    };
+
+    var d = {};
+    var bank_url = "";
 
     merchant_info["merchants"].forEach(function(merchant){
         if(merchant["name"] === merchant_name){
