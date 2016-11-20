@@ -2,9 +2,6 @@
 
 console.log("APP IS STARTING");
 alert("app STARTING");
-// var user_bank_info = chrome.storage.sync.get("credentials"function(credentials){
-// 	return credentials; 
-// });
 var current_bad_open = [];
 var charity = "Favorite Charity";
 
@@ -96,12 +93,16 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 
 				alert("YAY BACK TO WORK!\n You just donated $" + money_charged);
 			}
-            var user_bank_info = {
-                "first_name": "John",
-                "last_name": "Doe",
-                "id": "583114ce360f81f10455404d",
-                "account_id": "5831329b360f81f10455405e"
-            };
+            // var user_bank_info = {
+            //     "first_name": "John",
+            //     "last_name": "Doe",
+            //     "id": "583114ce360f81f10455404d",
+            //     "account_id": "5831329b360f81f10455405e"
+            // };
+            var user_bank_info = chrome.storage.sync.get("credentials", function(credentials){
+                return credentials; 
+            });
+			makePayment(user_bank_info, money_charged, charity);
 
             //makes payment from user's account specified in json string of the amount money_charged to the charity specified
 			makePayment(user_bank_info, money_charged, charity);
@@ -133,6 +134,8 @@ function isBad(url, tabId){
 function makePayment(user_string, amt, merchant_name) {
 
     user_info = JSON.parse(JSON.stringify(user_string));
+    console.log(user_info["account_id"])
+    console.log(user_info[0]["account_id"])
 
     var merchant_info = {
       "merchants": [
