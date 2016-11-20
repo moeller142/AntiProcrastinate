@@ -35,6 +35,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 			}
 		}
 		if(!already_on){
+			console.log(tab.url);
 			isBad(tab.url, tabId);
 		}
 		
@@ -61,7 +62,6 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 		if(open_site.id.indexOf(tabId)>=0){
 			console.log("closed tab was bad");
 
-			if(open_site.id.length>1){
 				console.log("closed tab has duplicate");
 				console.log(open_site.id);
 
@@ -108,7 +108,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 
 		}
 	}
-});
+);
 
 
 
@@ -117,6 +117,7 @@ function isBad(url, tabId){
 	chrome.storage.sync.get("sites", function(response){
 		var bad_sites = Object.keys(response.sites).map(function (key) { return response.sites[key]; });
 		for(var i=0; i < bad_sites.length; i++){
+			console.log(bad_sites[i].url);
 			if(url.includes(bad_sites[i].url)){
 				console.log("opened bad tab");
 				console.log(parseInt(bad_sites[i].initialPenalty));
