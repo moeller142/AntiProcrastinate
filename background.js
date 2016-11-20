@@ -24,7 +24,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 			}
 		});
 		if(!already_on){
-			var bad = isBad(tab.url, tabId);	
+			isBad(tab.url, tabId);	
 		}
 		
 	}
@@ -60,7 +60,7 @@ function isBad(url, tabId){
 		for(var i=0; i < bad_sites.length; i++){
 			if(bad_sites[i].url == url){
 				console.log("opened bad tab");
-				current_bad_open.push({url: tab.url, time_opened: new Date()});
+				current_bad_open.push({url: url, time_opened: new Date()});
 				chrome.tabs.sendMessage(tabId, {"message": "opened_bad_tab"});
 				console.log("BAD");
 			}

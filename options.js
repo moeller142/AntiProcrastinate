@@ -3,7 +3,7 @@ document.getElementById('save').addEventListener('click',
 
 
 function save_options() {
-  var acctNum = document.getElementById('accountNum').value;
+  //var acctNum = document.getElementById('accountNum').value;
 
   var penalizedSites = {};
   var sites = document.getElementsByClassName('url');
@@ -21,7 +21,7 @@ function save_options() {
   });
 
   chrome.storage.sync.set({
-    accountNum: acctNum,
+    //accountNum: acctNum,
     sites: penalizedSites
   }, function() {
     // Update status to let user know options were saved.
