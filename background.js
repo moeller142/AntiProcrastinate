@@ -26,22 +26,28 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 	if(changeInfo.status === "complete"){
 		var already_on = false;
-		current_bad_open.forEach(function(open_site){
+		for(i = 0; i<current_bad_open.length; i++){
+			var open_site = current_bad_open[i];
 			if(tab.url.includes(open_site.url)){
+				console.log(open_site);
 				already_on = true;
+				current_bad_open.quantity = current_bad_open.quantity + 1;
+				open_site.id.push(tabId);
 			}
-		});
+		}
 		if(!already_on){
 			isBad(tab.url, tabId);
 		}
-
+		
 	}
 
 });
 
 chrome.storage.onChanged.addListener(function (changes, areaName){
-	for (i =0; i<)
-})
+	// for (i =0; i<){
+
+	// }
+});
 
 
 chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
@@ -49,33 +55,51 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 	console.log("closing");
 
 	for(i = 0; i <current_bad_open.length; i++){
-		open_site = current_bad_open[i];
+		open_site = current_bad_open[i]; 
 
+		
 		//if closed site is a bad page
-		if(open_site.id === tabId){
-			console.log("removing");
+		if(open_site.id.indexOf(tabId)>=0){
+			console.log("closed tab was bad");
 
-			var current_time = new Date();
-			var time_spent = new Date(open_site.time_opened - current_time);
+			if(open_site.id.length>1){
+				console.log("closed tab has duplicate");
+				console.log(open_site.id);
 
-			//minutes spent on site
-			var minutes_spent = Math.round(((time_spent % 86400000) % 3600000) / 60000);
+				open_site.quantity = open_site.quantity - 1;
+				for(j = 0; j<open_site.id.length; j++){
+					if(open_site.id[j] === tabId){
+						open_site.id.splice(j, 1);
+					}
+				}
+				console.log(open_site.id);
 
-			//money the user will be charged
-			var money_charged = (Math.floor(minutes_spent/15) * open_site.additional_penalty) +  open_site.intial_penalty;
+			}else{
+				console.log("closed tab has no duplicate");
 
-			console.log("mins- " + minutes_spent + " money_charged- "+ money_charged);
+				console.log("removing");
 
-			//TO DO: get users bank json from storage
+				var current_time = new Date();
+				var time_spent = new Date(open_site.time_opened - current_time);
 
-			//makes payment from user's account specified in json string of the amount money_charged to the charity specified
+				//minutes spent on site
+				var minutes_spent = Math.round(((time_spent % 86400000) % 3600000) / 60000);
 
-			makePayment(user_bank_info, money_charged, charity);
+				//money the user will be charged
+				var money_charged = (Math.floor(minutes_spent/15) * open_site.additional_penalty) +  open_site.intial_penalty;
 
-			//removes site from current bad open sites
-			current_bad_open.splice(i, 1);
+				console.log("mins- " + minutes_spent + " money_charged- "+ money_charged);
 
-			alert("YAY BACK TO WORK!\n You just donated $" + money_charged);
+				//makes payment from user's account specified in json string of the amount money_charged to the charity specified
+				makePayment(user_bank_info, money_charged, charity);
+
+				//removes site from current bad open sites
+				current_bad_open.splice(i, 1);
+
+				alert("YAY BACK TO WORK!\n You just donated $" + money_charged);
+			}
+
+
 		}
 	}
 });
@@ -90,9 +114,10 @@ function isBad(url, tabId){
 			if(url.includes(bad_sites[i].url)){
 				console.log("opened bad tab");
 				console.log(parseInt(bad_sites[i].initialPenalty));
-				current_bad_open.push({url: url, time_opened: new Date(), id: tabId, intial_penalty: parseInt(bad_sites[i].initialPenalty) , additional_penalty: parseInt(bad_sites[i].additionalPenalty)});
-				chrome.tabs.sendMessage(tabId, {"message": "opened_bad_tab"});
-				console.log("BAD");
+				current_bad_open.push({url: url, time_opened: new Date(), id: [tabId], intial_penalty: parseInt(bad_sites[i].initialPenalty) , additional_penalty: parseInt(bad_sites[i].additionalPenalty), quantity: 1});
+				chrome.tabs.sendMessage(tabId, {"message": "opened_bad_tab", "initialPenalty": parseInt(bad_sites[i].initialPenalty), "additionalPenalty":parseInt(bad_sites[i].additionalPenalty)});
+				
+				console.log(current_bad_open);
 			}
 		}
 	});
