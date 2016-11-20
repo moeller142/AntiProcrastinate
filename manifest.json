@@ -3,6 +3,9 @@
   "name": "My Cool Extension",
   "version": "0.1",
 
+  "options_page": "options.html",
+  "permissions": ["storage"],
+
   "content_scripts": [
   {
     "matches": [
@@ -10,6 +13,18 @@
     ],
     "js": ["jquery-3.1.1.min.js", "content.js"]
   }
+  ],
+
+  "browser_action": {
+    "default_icon": "icon.png"
+  },
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "permissions": [
+    "storage",
+    "tabs"
   ]
 }
-
