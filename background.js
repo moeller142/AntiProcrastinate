@@ -66,7 +66,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 					if(open_site.id[j] === tabId){
 						open_site.id.splice(j, 1);
 					}
-			}
+				}
 			}
 			
 
@@ -98,7 +98,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 				// };
 				// makePayment(user_bank_info, money_charged, charity);
             	current_bad_open.splice(i, 1);
-            	
+
 				chrome.storage.sync.get("credentials", function(response){
             	//makes payment from user's account specified in json string of the amount money_charged to the charity specified
             		makePayment(response.credentials, money_charged, charity);
@@ -150,10 +150,8 @@ function makePayment(user_string, amt, merchant_name) {
 
     //user_info = JSON.parse(JSON.stringify(user_string));
     console.log(user_string["account_id"])
-<<<<<<< HEAD
     //console.log(user_string[0]["account_id"])
-=======
->>>>>>> 94dc59c324c39c8d21075f24ee1f4887f10b978a
+
 
     var merchant_info = {
       "merchants": [
