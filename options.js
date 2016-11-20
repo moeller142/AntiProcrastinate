@@ -3,7 +3,9 @@ document.getElementById('save').addEventListener('click',
 
 
 function save_options() {
-  var acctNum = document.getElementById('accountNum').value;
+  var userOptions = {first: document.getElementById('fname').value,
+      last: document.getElementById('lname').value,
+      account: document.getElementById('acctName').value};
 
   var penalizedSites = {};
   var sites = document.getElementsByClassName('url');
@@ -21,7 +23,7 @@ function save_options() {
   });
 
   chrome.storage.sync.set({
-    accountNum: acctNum,
+    user: userOptions,
     sites: penalizedSites
   }, function() {
     // Update status to let user know options were saved.
@@ -31,6 +33,8 @@ function save_options() {
       status.textContent = '';
     }, 750);
   });
+}
 
-
+function load_options() {
+  chrome.storage.sync.get("sites", function(response){console.log(response)})
 }

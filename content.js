@@ -12,6 +12,7 @@ chrome.runtime.onMessage.addListener(
 
     if( request.message === "opened_bad_tab" ){
     	console.log("alerting bad tab");
+      chrome.storage.sync.get("accountNum", function(response){console.log(response)});
     	alert("BAD TAB");
     }
 
@@ -30,4 +31,3 @@ chrome.runtime.onMessage.addListener(
     // }
   }
 );
-
