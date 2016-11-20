@@ -2,7 +2,6 @@
 
 console.log("APP IS STARTING");
 alert("app STARTING");
-var user_bank_info = "user_json = {\"first_name\": \"John\",\"last_name\": \"Doe\",\"id\": \"583114ce360f81f10455404d\",\"account_id\": \"5831329b360f81f10455405e\"}";
 // var user_bank_info = chrome.storage.sync.get("credentials"function(credentials){
 // 	return credentials; 
 // });
@@ -40,7 +39,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 });
 
 chrome.storage.onChanged.addListener(function (changes, areaName){
-	for (i =0; i<)
+	//for (i =0; i<)
 })
 
 
@@ -70,6 +69,12 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 
 			//makes payment from user's account specified in json string of the amount money_charged to the charity specified
 
+            var user_bank_info = {
+                "first_name": "John",
+                "last_name": "Doe",
+                "id": "583114ce360f81f10455404d",
+                "account_id": "5831329b360f81f10455405e"
+            };
 			makePayment(user_bank_info, money_charged, charity);
 
 			//removes site from current bad open sites
