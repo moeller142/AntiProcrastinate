@@ -45,6 +45,8 @@ function save_options() {
       status.textContent = '';
     }, 750);
   });
+  var select = document.getElementById('charity');
+  localStorage.charity = select.children[select.selectedIndex].value;
 }
 
 function load_options() {
