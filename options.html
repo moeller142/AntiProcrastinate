@@ -5,12 +5,8 @@
 <body class="options">
 	<h1>Options</h1>
 
-<<<<<<< HEAD
-  <h3>User Info:</h3>
-  <label>First Name: <input type="text" id="fName"></input> <label>Last Name: <input type="text" id="lName"></input>
-	<br /><br /><label>Account #: </label><input type="text" id="acctName"></input>
-=======
-  <table>
+
+  <table id="userform">
       <tr>
           <td><h3>First Name</h3></td>
           <td><h3>Last Name</h3></td>
@@ -20,13 +16,23 @@
           <td><input type="text" id="firstName"></input></td>
           <td><input type="text" id="lastName"></input></td>
           <td><input type="text" id="accountName"></input></td>
-          <td><button id="updateAccount">Change Account</button></td>
       </tr>
+			<tr>
+				<td><button id="addAccount">Add Account</button></td>
+			</tr>
   </table>
 
->>>>>>> 4c49485d1609b741f98c6cbce93b2520b50ee016
+	<div id="userinfo">
+		<h2>Account Info</h2>
+		<p id="name"></p>
+		<p id="account"></p>
+		<br />
+		<button id="updateAccount">Update Account</button>
+	</div>
+<br />
+<hr />
 
-  <h3>Websites to block</h3>
+  <h2>Websites to block</h2>
   <table>
     <tr>
       <td>URL to penalize</td>
@@ -34,21 +40,23 @@
       <td>Addtional Penalty (per 15 minutes)</td>
     <tr>
     <tr>
-      <td><input type="text" class="url"></td>
+      <td><input type="text" class="url" id="url0"></td>
       <td>$<input type="text" id="initialPenalty0"></input></td>
       <td>$<input type="text" id="additionalPenalty0"></input></td>
     </tr>
     <tr>
-      <td><input type="text" class="url"></td>
+      <td><input type="text" class="url" id="url0"></td>
       <td>$<input type="text" id="initialPenalty1"></input></td>
       <td>$<input type="text" id="additionalPenalty1"></input></td>
     </tr>
   </table>
 
 	<br />
-	<button id="save">Save</button>
+	<button id="save">Save Website Settings</button>
   <div id="status"></div>
 	<br />
+			<script src="jquery-3.1.1.min.js"></script>
 <script src="options.js"></script>
+<script src="createUser.js"></script>
 </body>
 </html>
