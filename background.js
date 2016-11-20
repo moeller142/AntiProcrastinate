@@ -6,7 +6,7 @@ var current_bad_open = [];
 var charity = "Favorite Charity";
 
 // var charity = chrome.storage.sync.get("charity"function(chosen_charity){
-// 	return chosen_charity; 
+// 	return chosen_charity;
 // });
 
 // Called when the user clicks on the browser action.
@@ -35,7 +35,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
 			console.log("121212" + tab.url);
 			isBad(tab.url, tabId);
 		}
-		
+
 	}
 
 });
@@ -52,9 +52,9 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 	console.log("closing");
 
 	for(i = 0; i <current_bad_open.length; i++){
-		open_site = current_bad_open[i]; 
+		open_site = current_bad_open[i];
 
-		
+
 		//if closed site is a bad page
 		if(open_site.id.indexOf(tabId)>=0){
 			console.log("closed tab was bad");
@@ -99,12 +99,12 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
             //     "id": "583114ce360f81f10455404d",
             //     "account_id": "5831329b360f81f10455405e"
             // };
-            chrome.storage.sync.get("credentials", function(credentials){
+            chrome.storage.sync.get("credentials", function(response){
             	//makes payment from user's account specified in json string of the amount money_charged to the charity specified
-            	makePayment(credentials, money_charged, charity);
-
+            	makePayment(JSON.stringify(response.credentials), money_charged, charity);
+              console.log("response: " + response);
             });
-			
+
 
 
 		}
@@ -126,7 +126,7 @@ function isBad(url, tabId){
 				console.log(parseInt(bad_sites[i].initialPenalty));
 				current_bad_open.push({url: url, time_opened: new Date(), id: [tabId], intial_penalty: parseInt(bad_sites[i].initialPenalty) , additional_penalty: parseInt(bad_sites[i].additionalPenalty), quantity: 1});
 				chrome.tabs.sendMessage(tabId, {"message": "opened_bad_tab", "initialPenalty": parseInt(bad_sites[i].initialPenalty), "additionalPenalty":parseInt(bad_sites[i].additionalPenalty)});
-				
+
 				console.log(current_bad_open);
 			}
 		}
@@ -137,7 +137,6 @@ function makePayment(user_string, amt, merchant_name) {
 
     //user_info = JSON.parse(JSON.stringify(user_string));
     console.log(user_string["account_id"])
-    console.log(user_string[0]["account_id"])
 
     var merchant_info = {
       "merchants": [
