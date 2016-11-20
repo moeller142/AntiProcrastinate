@@ -46,7 +46,7 @@ function makePayment(user_string, amt, merchant_name) {
 
     // create URL for post request using users account ID
     bank_url = "http://api.reimaginebanking.com/accounts/" + user_info["account_id"] 
-        + "/purchases?key=355f3102e837501d7620a220cd1ebd37"
+        + "/purchases?key=355f3102e837501d7620a220cd1ebd37";
 
 
 
