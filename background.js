@@ -9,58 +9,61 @@ var bad_sites = [{url:"https://www.reddit.com/", initial_cost:5, additional_cost
 chrome.browserAction.onClicked.addListener(function(tab) {
   // Send a message to the active tab
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    var activeTab = tabs[0];
-    chrome.tabs.sendMessage(activeTab.id, {"message": "clicked_browser_action"});
+  	var activeTab = tabs[0];
+  	chrome.tabs.sendMessage(activeTab.id, {"message": "clicked_browser_action"});
   });
 });
 
+//alerts content if bad page has been opened
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab){
-	//console.log(tab.url);
-	//chrome.tabs.sendMessage(tabId, {"message": "test"});
-
-	var bad = isBad(tab.url);
-	console.log(bad);
-
-	if(bad){
-		chrome.tabs.sendMessage(tabId, {"message": "opened_bad_tab"});
-
+	if(changeInfo.status === "complete"){
+		var already_on = false;
+		current_bad_open.forEach(function(open_site){
+			if(open_site.url === tab.url){
+				already_on = true;
+			}
+		});
+		if(!already_on){
+			var bad = isBad(tab.url, tabId);	
+		}
+		
 	}
 
-	//chrome.tabs.sendMessage(tabId, {"message": "updated_tab"});
 });
 
+// chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
+// 	console.log("closed tab")
+// 	var closing_url = "";
+// 	chrome.tabs.get(tabId, function(tab){
+// 		closing_url = tab.url;
+// 	});
 
-function isBad(url){
+// 	console.log("closing" closing_url);
+
+// 	for(i = 0; i <current_bad_open.length; i++){
+// 		open_site = current_bad_open[i];
+// 		if(open_site.url === closing_url){
+// 			current_bad_open.splice(i, 1);
+// 			console.log("removing" closing_url);
+// 			chrome.tabs.sendMessage(tabId, {"message": "closed_bad_tab"});
+
+// 		}
+// 	}	
+
+
+
+
+function isBad(url, tabId){
 	var bad = false;
-	bad_sites.forEach(function(bad_site){
-		//console.log(bad_site.url);
-		//console.log(url);
-		if(bad_site.url === url){
-			console.log("opened bad tab");
-			bad = true;
+	chrome.storage.sync.get("sites", function(response){
+		var bad_sites = Object.keys(response.sites).map(function (key) { return response.sites[key]; });
+		for(var i=0; i < bad_sites.length; i++){
+			if(bad_sites[i].url == url){
+				console.log("opened bad tab");
+				current_bad_open.push({url: tab.url, time_opened: new Date()});
+				chrome.tabs.sendMessage(tabId, {"message": "opened_bad_tab"});
+				console.log("BAD");
+			}
 		}
-	});	
-	return bad;
+	});
 }
-
-//opens new tab when open_new_tab message is sent
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    if( request.message === "open_new_tab" ) {
-      chrome.tabs.create({"url": request.url});
-    }
-
-    if(request.message === 'examine_url'){
-    	if(isBad(request.url)){
-    		alert("BAD BAD BAD TAB");
-    		// chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    		// var activeTab = tabs[0];
-    		// chrome.tabs.sendMessage(activeTab.id, {"message": "opened_bad_tab"});
-  		
-    	}
-    }
-  }
-);
-
-
-
