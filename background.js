@@ -101,7 +101,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo){
 
 				chrome.storage.sync.get("credentials", function(response){
             	//makes payment from user's account specified in json string of the amount money_charged to the charity specified
-            		makePayment(response.credentials, money_charged, charity);
+            		makePayment(JSON.stringify(response.credentials), money_charged, charity);
             		console.log("response: " + response);
 
             	});
@@ -146,9 +146,9 @@ function isBad(url, tabId){
 }
 
 function makePayment(user_string, amt, merchant_name) {
-	 console.log(user_string);
+	 console.log("USER STRING " + user_string);
 
-    //user_info = JSON.parse(JSON.stringify(user_string));
+    user_info = JSON.parse(user_string);
     console.log(user_string["account_id"])
     //console.log(user_string[0]["account_id"])
 
@@ -187,7 +187,7 @@ function makePayment(user_string, amt, merchant_name) {
               "description": "Donation from script"
             };
 
-            bank_url = "http://api.reimaginebanking.com/accounts/" + user_string["account_id"]
+            bank_url = "http://api.reimaginebanking.com/accounts/" + user_info["account_id"]
                 + "/purchases?key=355f3102e837501d7620a220cd1ebd37"
 
 
@@ -205,7 +205,6 @@ function makePayment(user_string, amt, merchant_name) {
         },
         dataType: "json",
         success: function(data) {
-            alert("Charged " + amt)
             console.info(data)
         }
 
